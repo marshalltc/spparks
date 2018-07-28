@@ -1,0 +1,54 @@
+
+units metal
+dimension 3
+newton on
+boundary p p p  
+atom_style atomic
+pair_style hybrid eam/fs tersoff lj/cut 4
+
+region mybox block 0 50 0 50 0 50 units box
+create_box 3 mybox
+
+mass 3 28.0855
+
+region smallbox1 block 0 50 0 50 0 10 units box
+region smallbox2 block 0 50 0 50 10.001 50 units box
+
+pair_coeff * * eam/fs lammps/CuZr_mm.eam.fs Cu Zr NULL
+pair_coeff * * tersoff lammps/Si.tersoff NULL NULL Si
+
+pair_coeff 1 3 lj/cut .084602 3.082
+pair_coeff 2 3 lj/cut .11366 3.3789
+
+lattice diamond 5.431 
+create_atoms 3 region smallbox1 
+lattice none 1
+
+#lattice hcp 3.220299
+#create_atoms 2 region smallbox2
+read_data data/data.lammps add append 
+#lattice none 1
+
+group group1 region smallbox1
+group group2 region smallbox2
+
+neighbor 0.3 multi
+
+#velocity group2 create 293 5587
+#fix 1 group2 temp/berendsen 293 293 1
+
+
+fix fixzero group1 setforce 0 0 0 
+minimize 1.0e-4 1.0e-6 1000 1000
+
+#fix myfix group2 nve
+
+compute myxrd all xrd 1.541838 Cu Zr Si 2Theta 20 60 
+fix myxrd all ave/histo/weight 1 1 1 20 60 20 c_myxrd[1] c_myxrd[2] mode vector file data/xrd_data
+
+#dump m1 all image 1 data/image*.ppm type type size 640 480
+#dump_modify m1 adiam 3 2.2
+#dump_modify m1 adiam 1 2.8
+#dump_modify m1 adiam 2 2.78
+
+run 0
