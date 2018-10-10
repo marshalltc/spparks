@@ -49,7 +49,7 @@ dump_modify imagedump scolor 2 blue
 dump_modify imagedump scolor 0 green
 dump_modify imagedump pad 6
 
-variable i loop 1000
+variable i loop 10
 label loop  
  deposition .01 0 0 -1 1.0 9 26 2
  run 100 
