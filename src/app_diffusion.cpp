@@ -36,15 +36,9 @@ AppDiffusion::AppDiffusion(SPPARKS *spk, int narg, char **arg) :
   AppLattice(spk,narg,arg)
 {
   // these can be changed by model choice, see below
-<<<<<<< HEAD
 
 //marshalltc 
  ninteger = 2;
-=======
-//one change to ninteger = 2 from n integer = 1
-//marshalltc 
- ninteger =3;
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
  //end my code
   ndouble = 0;
   delpropensity = 2;
@@ -177,13 +171,8 @@ void AppDiffusion::input_app(char *command, int narg, char **arg)
     coordhi = atoi(arg[6]);
 //marshalltc
 pid = atoi(arg[7]);
-<<<<<<< HEAD
 //end of my code
 
-=======
-
-//end of my code
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
     if (deprate < 0.0) error->all(FLERR,"Illegal deposition command");
     if (domain->dimension == 2 && (dir[1] >= 0.0 || dir[2] != 0.0))
       error->all(FLERR,"Illegal deposition command");
@@ -216,7 +205,6 @@ pid = atoi(arg[7]);
       error->all(FLERR,
                  "Cannot define Schwoebel barrier without Schwoebel model");
 //marshalltc
-<<<<<<< HEAD
     if (narg < 3 || narg > 6) error->all(FLERR,"Illegal barrier command");
 		if(barrier = hbarrier){
 			
@@ -230,14 +218,6 @@ pid = atoi(arg[7]);
 //end of my code
 			
 		else if(barrier == sbarrier){
-=======
-    if (narg < 2 || narg > 4) error->all(FLERR,"Illegal barrier command");
-		if(barrier = hbarrier){ 
-			for(int i = 1; i < narg; i++){
-				barrier[0][i-1] = atof(arg[i]);
-			}
-		}else if(barrier == sbarrier){
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 			int delta = atoi(arg[1]);
 			double q = atof(arg[2]);
 			int i,j;
@@ -248,10 +228,6 @@ pid = atoi(arg[7]);
     
   } else error->all(FLERR,"Unrecognized command");
 }
-<<<<<<< HEAD
-=======
-//end of my code
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 
 /* ----------------------------------------------------------------------
    set site value ptrs each time iarray/darray are reallocated
@@ -680,7 +656,6 @@ double AppDiffusion::site_propensity_nonlinear(int i)
 	probone = exp(-edelta*t_inverse);
     } 
 
-<<<<<<< HEAD
   else if (temperature > 0.0){
 //marshalltc
 	int num_types = 3;//sizeof(barrier)/sizeof(barrier[0]);
@@ -708,20 +683,6 @@ double AppDiffusion::site_propensity_nonlinear(int i)
            else
      	   probone = exp((-edelta - barrier_eff) * t_inverse);
   }
-=======
-
-//marshalltc
-   else if (temperature > 0.0) 
-        if(iarray[1][i]==0){
-			probone = 0;
-        }
-        else{
-           if (edelta <= 0.0)
-           probone = exp(-barrier[0][iarray[1][i]-1]*t_inverse);
-           else
-     	   probone = exp((-edelta-barrier[0][iarray[1][i]-1])*t_inverse);
-        }
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 //end of my code 
 
     

@@ -22,12 +22,6 @@ class App : protected Pointers {
  public:
   enum APP_CLASSES{GENERAL,LATTICE,OFF_LATTICE};
 
-<<<<<<< HEAD
-=======
-// my variable here
-int pid;
-//
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 
   int appclass;           // one of the enum values
   char *style;            // style name of app

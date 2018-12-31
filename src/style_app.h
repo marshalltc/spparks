@@ -4,15 +4,9 @@
 #include "app_ising.h"
 #include "app_ising_single.h"
 #include "app_membrane.h"
-<<<<<<< HEAD
 #include "app_potts.h"
 #include "app_potts_additive.h"
 #include "app_potts_grad.h"
-=======
-#include "app_potts_additive.h"
-#include "app_potts_grad.h"
-#include "app_potts.h"
->>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 #include "app_potts_neigh.h"
 #include "app_potts_neighonly.h"
 #include "app_potts_phasefield.h"
