@@ -1,0 +1,29 @@
+<A HREF = "home.html">HOME</A> 
+
+<h1>Quick Start Guide</h1>
+
+<p>SPPARKS is intended to be run on unix type systems. If you are going to follow this quick start guide you must
+compile the source code on a unix type system. Else see the "compiling" section for some of the challenges this software
+will have for running on Windows.  </p>
+
+<h3>Compiling</h3>
+<p> 
+Open a terminal and navigate to the src directory. type "make serial" to compile source files into an executable. 
+The executable by default has the name "spk_serial". If you see this file in the src directory then you were sucessful 
+in compiling. If you are using an IDE be sure to configure the settings of your IDE to use the custom Makefile provided. 
+</p>
+
+<h3>Running a Script</h3>
+<p> 
+ A script can be loaded into the executable using stdin. For example,if you use the script titled "in.spparks" and 
+ the executable/script are in the same directory then you can run the program using the command "./spk_serial &lt in.spparks".
+ Diagnostics will be displayed in the terminal and snapshots of the alloy state will be dumped in the data directory. 
+</p>
+
+<h3>Image Processing</h3>
+<p> 
+ If you would like to convert these images into a GIF, you can do so easily with ImageMagick which is provided with many unix 
+ type systems. The file names have already been padded with zeros so all you should have to do to convert to a movie is
+ type the command "convert Image*.ppm foo.gif" while in the data directory. You can also use ImageMagick to convert ppm 
+ files to jpeg if need be. 
+</p>

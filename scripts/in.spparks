@@ -1,0 +1,52 @@
+#Running this script will generate image files for the codeposition of a binary thin film on a silicon substrate
+#The binary alloy simulated will be chemically inert with each other and should exhibit maximum grain formation
+#Image file names are padded with zeros so that it will be easy to use Imagemagick to convert them into a GIF
+
+#Setup simulation details 
+ seed 56689 
+ app_style diffusion nonlinear hop 
+ dimension 3 
+ lattice sc/26n 1
+ region myregion block 0 50 0 50 0 50 
+ create_box myregion 
+ create_sites box 
+ 
+#Define what lattice sites are occupied, i2 sets the value for chemical species of occupied site
+ set site value 1
+ set site value 2 if z < 4.0 
+ set site value 3 if z < 2.0 
+ set site value 3 if z > 49.0 
+ set i2 value 3 if z < 4.0
+
+#Energy barriers for diffusion events, see manual for how this new functionality is used
+ barrier hop 1 0.5 0.0 0.2
+ barrier hop 2 0.0 0.5 0.2
+ barrier hop 3 0.0 0.0 1000.5
+
+#more details specific to application 
+ temperature .0257
+ solve_style linear
+
+#Details defining how images are created for the simulation
+ dump imagedump image 1 data/Image*.ppm i2 i2 crange 0 10 drange 0 1 #sdiam 1  box no 1
+ dump_modify imagedump thresh i1 > 1
+ dump_modify imagedump thresh i2 < 4
+ dump_modify imagedump scolor 1 red
+ dump_modify imagedump scolor 2 blue 
+ dump_modify imagedump scolor 3 green
+ dump_modify imagedump pad 6
+ dump_modify imagedump backcolor white
+ 
+#For loop using SPPARKS commands, used to alternate the atomic species deposited
+#Deposition command is modified to take in an integer value for atomic species
+#To get a large enough crystal to observe grains there should be nearly 1000 iterations of this loop
+ variable i loop 100
+ label loop  
+  deposition 0.01 0 0 -1 1.0 9 26 1
+  run 100
+  deposition 0.01 0 0 -1 1.0 9 26 2
+  run 100
+ next i
+ jump scripts/in.spparks loop
+
+

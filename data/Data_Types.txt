@@ -1,0 +1,3 @@
+This is directory serves as a place for the many image files to reside. 
+SPPARKS produces ppm files which can be viewed with LibreOffice or 
+converted with ImageMagick. 
