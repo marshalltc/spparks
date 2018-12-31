@@ -7,7 +7,11 @@ SHELL = /bin/sh
 # specify flags and libraries needed for your compiler
 
 CC =		g++
+<<<<<<< HEAD
 CCFLAGS =	-O -std=c++11 -U__STRICT_ANSI__
+=======
+CCFLAGS =	-O -std=c++11
+>>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 SHFLAGS =	-fPIC
 DEPFLAGS =	-M
 

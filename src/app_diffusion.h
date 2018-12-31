@@ -42,9 +42,12 @@ class AppDiffusion : public AppLattice {
 
  private:
 
+<<<<<<< HEAD
 //marshalltc
 int pid;
 //end my variable
+=======
+>>>>>>> 62eaafefc8516d216296fb7615f6230fdb0cb74c
 
   int engstyle,hopstyle;
   int allocated;
