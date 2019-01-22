@@ -1,1 +1,4 @@
 SPPARKS (18 May 2017)
+
+run 1
+ERROR: Run command before app_style set (input.cpp:798)

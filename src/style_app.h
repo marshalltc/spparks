@@ -1,3 +1,4 @@
+#include "app_alloy.h"
 #include "app_chemistry.h"
 #include "app_diffusion.h"
 #include "app_erbium.h"

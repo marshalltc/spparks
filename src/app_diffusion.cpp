@@ -302,7 +302,7 @@ double AppDiffusion::site_energy(int i)
     return ecoord[n];
   }
 
-  // energy is a linear function of coordination number, just count bonds
+  // energy is a linear function of coordination number, just  bonds
 
   int eng = 0;
   for (int j = 0; j < numneigh[i]; j++)

@@ -1,0 +1,50 @@
+#Standard commands for setting up a SPPARKS application
+ seed 56689 
+ app_style alloy 
+ dimension 3 
+ lattice sc/26n 1
+ region myregion block 0 50 0 50 0 50 
+ create_box myregion 
+ create_sites box 
+
+#Initialize substrate atoms of type 3 and initialize atoms that are fixed
+ set site value 1
+ set site value 2 if z < 4.0 
+ set site value 3 if z < 2.0 
+ set site value 3 if z > 49.0 
+ set i2 value 3 if z < 4.0
+
+#app_style alloy commands, energy between atoms 1 and 2 is zero to simulate chemical inertness
+ bond_energy 1 1 0.05
+ bond_energy 1 2 0
+ bond_energy 1 3 0.02
+ bond_energy 2 3 0.02
+ bond_energy 2 2 0.05
+ bond_energy 3 3 100
+
+ temperature .0257
+ solve_style tree
+
+#The SPPARKS way to write a for loop. Use this code to simulate codeposition. Deposition command unique to alloy app. 
+ variable i loop 1000
+ label loop  
+  deposition 0.1 0 12 -1 2.0 9 26 1
+  run 100
+  deposition 0.1 0 12 -1 2.0 9 26 2
+  run 100
+ next i
+ jump scripts/in.oblique_angle loop
+
+#Image properties. Files dumped in data folder. Use scolor to define color of atoms
+ dump imagedump image 1000 data/Image*.ppm i2 i2 crange 0 10 drange 0 1 sdiam 1  box no 1
+ dump_modify imagedump thresh i1 > 1
+ dump_modify imagedump thresh i2 < 4
+ dump_modify imagedump scolor 1 red
+ dump_modify imagedump scolor 2 blue 
+ dump_modify imagedump scolor 3 green
+ dump_modify imagedump pad 6
+ dump_modify imagedump backcolor white
+
+
+run 1
+

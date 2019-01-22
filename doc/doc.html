@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<title>Timothy Marshall</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<style>
+ nav {
+ width: 25%;
+ padding-right: 25%;
+ margin-right:25%;
+ margin-left:0;
+ 
+ }
+
+ nav ol {
+  list-style-type: upper-roman;
+  background-color: #500000;
+ 
+ }
+ 
+ nav li a{
+ list-style-type: upper-roman;
+  display:block;
+  color:white;
+  text-align:left;
+  text-decoration:none;
+  padding: 2% 0%;
+ }
+ 
+ nav li a:hover{
+  background-color: #555555;
+ }
+
+ #cmd1,#cmd2{
+  border: 1px solid black;
+  padding: 3% 3%;
+ }
+
+ h2{
+  
+  text-align:center;
+ }
+
+
+ p{
+  
+ text-indent: 5%;
+ }
+
+ table,td,th{
+  border: 1px solid black;
+ }
+ 
+body{
+margin-right: 15%;
+margin-left: 15%;
+}
+ 
+img{
+float:right;
+}
+
+</style>
+
+<h1>Alloy Application for SPPARKS</h1>
+
+
+  <img src="movie.gif">
+
+
+
+<nav>
+ <ol>
+ <li><a href = "#1">Introduction</a></li>
+     <ol>
+       <li><a href = "#1.1">About SPPARKS</a></li>
+       <li><a href = "#1.2">About This Project</a>
+       <li><a href = "#1.3">Alloy Application </a></li>
+     </ol>
+<li><a href = "#11">Quick Start Guide</a></li>
+   <li><a href = "#2">Commands</a> </li>
+     <ol>
+       <li><a href = "#2.1">General Commands</a></li>
+       <li><a href = "#2.2">Unique to AppStyle Alloy</a></li>
+     </ol>
+   <li><a href = "#3">Input Scripts</a> </li>
+     <ol>
+       <li><a href = "#3.1">Grain Formation</a></li>
+       <li><a href = "#3.2">Oblique Angle Deposition</a></li>
+      
+     </ol>
+   <li><a href = "#4">Some General Comments</a> </li>
+     <ol>
+       <li><a href = "#4.1">Compiling on Windows</a></li>
+       <li><a href = "#4.2">VCU Thesis Readers</a></li>
+       <li><a href = "#4.3">Feedback</a></li>
+     </ol>
+    <li><a href = "#5">Acknowledgements</a> </li>
+ </ol>
+</nav>
+
+
+
+
+<body>
+<h2 id = "1">Introduction</h2>
+
+<p>
+This project aims to model the diffusion of multiple atomic species using Monte Carlo methods. Since this is a SPPARKS application the ideal audience for this manual are people familiar with SPPARKS however this is not a requirement. Follow the quick start guide to be up and running in a matter of minutes. For most, the quick start guide is all you will need, however the rest of this document serves to describe the software in detail should you need it.
+</p>
+
+
+<h3 id = "1.1">About SPPARKS</h3>
+
+<p>
+SPPARKS (Stochastic Parallel PARticle Kinetic Simulator) is a C/C++ application developed by Steve Plimpton at Sandia National Lab and released under the GPL license. The original source code and documentation can be found at https://spparks.sandia.gov. It serves as a scripting environment for physics based Monte Carlo simulations to run. Commands are placed in a file and loaded into the application using stdin.  
+</p>
+
+
+<h3 id = "1.2">About This Project</h3>
+
+<p>
+This project creates a new application in C/C++ similar to apps seen in the documentation of the command <a href="https://spparks.sandia.gov/doc/app_style.html">"app_style"</a>. "app_style alloy" is an on-lattice application that performs diffusion events with a probability related to the bonds between atomic pairs. Defining the probability this way is what allows us to simulate multiple types of atoms and observe phenomenon such as grain boundary formation. This is of particular importance to researchers as binary and ternary alloys have prominent usage in thermocouples, PV cells, semiconductors, metallic glasses and more. 
+</p>
+
+<p>
+The code that I have added to enable this new functionality is encapsulated in its own C++ class and can be found entirely in the files "app_alloy.cpp" and "app_alloy.h".The modularity of the code allows all the other app_styles to be used just as they are defined in their original documentation. 
+</p>
+
+
+<h3 id = "1.3">Alloy Application</h3>
+
+<p>
+"app_style alloy" is an on-lattice application that performs diffusion events with a probability of the Boltzmann factor p=e^(Q/kb*t). kb*t is the thermal energy of the system and Q is the sum of the bond energies between the site i and all of the neighbor atoms j. To use this application you must specify the bond energies using the bond_energy command detailed in this documentation.  
+</p>
+
+<p>
+Something to consider is what happens to atoms that diffuse to a lattice point with a coordination number of zero. There is no concept of a trajectory or velocity in this application so an incoming vapor of particles will not drive these particles back to the surface of the substrate. If allowed to diffuse in the simulation domain they will nucleate and cause crystals to grow some distance above the substrate. To alleviate this, atoms that have a coordination number of zero are considered desorbed atoms and are removed from the simulation domain. 
+</p>
+
+
+<h2 id = "11">Quick Start Guide</h2>
+<div id="qs">
+<ol>
+ <li>Open a Linux terminal.</li>
+ <li>Navigate to the "src" directory.</li>
+ <li>Type "make serial" to generate an exectubale called "spk_serial".</li>
+ <li>Run an example script by typing the command "./spk_serial&ltin_grain formation" (both files must be in the same directory).</li>
+ <li>View the images produced in the data folder. If data folder was deleted you must create one before running the simulation. </li>
+ <li>(Optional) Use the images to make a movie by typing "convert Image*.ppm movie.gif". </li>
+</ol>
+</div>
+
+<h2 id = "2">Commands</h2>
+<h3 id = "2.1">General Commands</h3>
+<p>
+There are a wide array of commands that can be used for the input script. A generic application that uses some type of lattice structure to perform events usually has these commands to start with. <br> <br>
+ seed  <br>
+ app_style <br>
+ dimension  <br>
+ lattice <br>
+ region <br>
+ create_box <br>
+ create_sites <br>
+ solve_style <br><br>
+This is by no means an exhaustive list. You should use "app_style alloy" to set the SPPARKS application to the one in this documentation. If you are not familiar with most of these commands or the general structure of a SPPARKS script I suggest sticking to the format of one of the example scripts provided.
+</p>
+
+<h3 id = "2.2">Unique to Appstyle Alloy</h3>
+<p>
+
+<div id="cmd1">
+
+deposition rate dirx diry dirz d0 lo hi n  <br><br>
+
+The deposition command allows atoms to deposit in competition with diffusion events. The parameters are:<br><br>
+
+<table>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td>rate</td><td>atoms deposited per second</td></tr>
+<tr><td>dirx,diry,dirz</td><td>the direction of the incident vapor of atoms deposited</td></tr>
+<tr><td>dtheta</td><td>allowable distance a deposited atom can be from original vapor target</td></tr>
+<tr><td>lo,hi</td><td>max and min coordination number of deposition site</td></tr>
+<tr><td>n</td><td>an integer defining the atomic species deposited</td></tr>
+</table>
+</div>
+
+<br>
+
+<div id="cmd2">
+bond_energy i j q <br><br>
+
+The bond energy determines the strength q of an interaction between two atoms i and j. "bond_energy j i q" is equivalent to "bond_energy i j q" and defining the same atomic pair twice will throw an error. The parameters are as follows <br><br>
+
+<table>
+<tr><th>parameter</th><th>description</th></tr>
+<tr><td>i,j</td><td>an atomic pair defined by two integers</td></tr>
+<tr><td>q</td><td>the strength of a single bond</td></tr>
+</table>
+</div>
+
+<br>
+
+Note: The integer defining atomic species is stored in the array labeled "i2" as seen in the <a href="https://spparks.sandia.gov/doc/set.html">"set"</a> command. You can use the set command to define the type of atom and use "i1" to define whether a site is OCCUPIED or VACANT. If for example, you create a substrate using the set command you should set i1 and i2. 
+</p>
+
+
+<h2 id = "3">Input Scripts</h2>
+<h3 id = "3.1">Grain Formation</h3>
+<p>
+"in.grain_formation" is one of the examples included with the software in the scripts directory. It is one of the simpler simulations to run.Two atoms are co-deposited at 90 degrees to the substrate and the bond energies are defined in such a way that maximum segregation should occur. Running this script will produce a sequence of image files in the data folder. The filenames are padded with zeros so that it is easy to convert them to a GIF using ImageMagick which is a free software included with most linux systems. 
+</p>
+
+<h3 id = "3.2">Oblique Angle Deposition</h3>
+<p>
+The file "in.oblique_angle" will perform co-deposition at angles larger than 85 degrees to the substrate. This causes a shadowing effect that produces nano-rods. As in the previous script the bond energies are defined to produce maximum segregation. 
+</p>
+
+<h2 id = "4">Some General Comments</h2>
+<h3 id = "4.1">Compiling on Windows</h3>
+<p>
+It is possible to compile this software on Windows using Cygwin but this is highly discouraged. There are some concepts such as permission bits that won't translate well to Windows. If you do not have access to a Linux system it is easy to get started with one by using a virtual machine or imaging a usb with a copy of Linux. 
+ 
+</p>
+
+<h3 id = "4.2">VCU Thesis Readers</h3>
+<p>
+If you have stumbled upon this repository because you have read my thesis, please note that this software can perform the simulations but is not the exact format used at the time I wrote it. You can email me at marshalltc@vcu.edu for an exact copy if you would like.  
+</p>
+
+<h3 id = "4.3">Feedback</h3>
+<p>
+I am always looking for good feedback whether on this project or another. If you have any comments, suggestions, or have found a sofware bug please email me at marshalltc@vcu.edu. 
+</p>
+
+<h2 id = "5">Acknowledgements</h2>
+<p>
+Thank you to my adviser for helping me to create and use this software to perform simulations of binary alloys and publish my thesis at Virginia Commonwealth University. 
+</p>
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
