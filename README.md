@@ -1,4 +1,4 @@
-Alloy Application for SPPARKS
+<b>Alloy Application for SPPARKS<b>
 
 ![Nanorods](doc/doc_dependencies/movie.gif)
 
