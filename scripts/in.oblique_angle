@@ -36,7 +36,7 @@
  jump scripts/in.oblique_angle loop
 
 #Image properties. Files dumped in data folder. Use scolor to define color of atoms
- dump imagedump image 1000 data/Image*.ppm i2 i2 crange 0 10 drange 0 1 sdiam 1  box no 1
+ dump imagedump image 1000 image*.ppm i2 i2 crange 0 10 drange 0 1 sdiam 1  box no 1
  dump_modify imagedump thresh i1 > 1
  dump_modify imagedump thresh i2 < 4
  dump_modify imagedump scolor 1 red

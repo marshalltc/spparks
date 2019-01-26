@@ -7,7 +7,7 @@
 
 <style>
  nav {
- width: 25%;
+ width: 30%;
  padding-right: 25%;
  margin-right:25%;
  margin-left:0;
@@ -42,7 +42,14 @@
   
   text-align:center;
  }
-
+ 
+ #qs{
+   padding-bottom: 10%;
+ }
+ 
+ #qs li{
+  padding-top: 5%;
+ }
 
  p{
   
@@ -54,20 +61,21 @@
  }
  
 body{
-margin-right: 15%;
-margin-left: 15%;
+margin-right: 20%;
+margin-left: 20%;
 }
  
 img{
 float:right;
 }
 
+#i1 img{
+width: -webkit-fill-available;
+}
+
 </style>
 
 <h1>Alloy Application for SPPARKS</h1>
-
-
-  <img src="movie.gif">
 
 
 
@@ -89,7 +97,7 @@ float:right;
      <ol>
        <li><a href = "#3.1">Grain Formation</a></li>
        <li><a href = "#3.2">Oblique Angle Deposition</a></li>
-      
+       <li><a href = "#3.3">SPPARKS2LAMMPS</a></li>
      </ol>
    <li><a href = "#4">Some General Comments</a> </li>
      <ol>
@@ -101,14 +109,14 @@ float:right;
  </ol>
 </nav>
 
-
+<img src = "doc_dependencies/movie.gif">
 
 
 <body>
 <h2 id = "1">Introduction</h2>
 
 <p>
-This project aims to model the diffusion of multiple atomic species using Monte Carlo methods. Since this is a SPPARKS application the ideal audience for this manual are people familiar with SPPARKS however this is not a requirement. Follow the quick start guide to be up and running in a matter of minutes. For most, the quick start guide is all you will need, however the rest of this document serves to describe the software in detail should you need it.
+The ideal audience for this project are people familiar with SPPARKS/LAMMPS or familiarity with Monte Carlo/molecular dynamics however this is not a requirement. The quick start guide will have you up and running in minutes. There are a few different example scripts you can use that range from easy to difficult and slow to fast computationally. 
 </p>
 
 
@@ -118,11 +126,10 @@ This project aims to model the diffusion of multiple atomic species using Monte 
 SPPARKS (Stochastic Parallel PARticle Kinetic Simulator) is a C/C++ application developed by Steve Plimpton at Sandia National Lab and released under the GPL license. The original source code and documentation can be found at https://spparks.sandia.gov. It serves as a scripting environment for physics based Monte Carlo simulations to run. Commands are placed in a file and loaded into the application using stdin.  
 </p>
 
-
 <h3 id = "1.2">About This Project</h3>
 
 <p>
-This project creates a new application in C/C++ similar to apps seen in the documentation of the command <a href="https://spparks.sandia.gov/doc/app_style.html">"app_style"</a>. "app_style alloy" is an on-lattice application that performs diffusion events with a probability related to the bonds between atomic pairs. Defining the probability this way is what allows us to simulate multiple types of atoms and observe phenomenon such as grain boundary formation. This is of particular importance to researchers as binary and ternary alloys have prominent usage in thermocouples, PV cells, semiconductors, metallic glasses and more. 
+This project creates a new application in C/C++ similar to apps seen in the documentation of the command <a href="https://spparks.sandia.gov/doc/app_style.html">"app_style"</a> for SPPARKS. "app_style alloy" is an on-lattice application that performs diffusion events with a probability related to the bonds between atomic pairs. Defining the probability this way is what allows us to simulate multiple types of atoms and observe phenomenon such as grain boundary formation. This is of particular importance to researchers as binary and ternary alloys have prominent usage in thermocouples, PV cells, semiconductors, metallic glasses and more. 
 </p>
 
 <p>
@@ -130,10 +137,11 @@ The code that I have added to enable this new functionality is encapsulated in i
 </p>
 
 
+
 <h3 id = "1.3">Alloy Application</h3>
 
 <p>
-"app_style alloy" is an on-lattice application that performs diffusion events with a probability of the Boltzmann factor p=e^(Q/kb*t). kb*t is the thermal energy of the system and Q is the sum of the bond energies between the site i and all of the neighbor atoms j. To use this application you must specify the bond energies using the bond_energy command detailed in this documentation.  
+"app_style alloy" is an on-lattice application that performs diffusion events with a probability of the Boltzmann factor p=e^(Q/kb*t). Where kb*t is the thermal energy of the system and Q is the sum of the bond energies between the site i and all of the neighbor atoms j. To use this application you must specify the bond energies using the bond_energy command detailed in this documentation.  
 </p>
 
 <p>
@@ -146,10 +154,10 @@ Something to consider is what happens to atoms that diffuse to a lattice point w
 <ol>
  <li>Open a Linux terminal.</li>
  <li>Navigate to the "src" directory.</li>
- <li>Type "make serial" to generate an exectubale called "spk_serial".</li>
+ <li>Type "make serial" to generate an executable called "spk_serial".</li>
  <li>Run an example script by typing the command "./spk_serial&ltin_grain formation" (both files must be in the same directory).</li>
- <li>View the images produced in the data folder. If data folder was deleted you must create one before running the simulation. </li>
- <li>(Optional) Use the images to make a movie by typing "convert Image*.ppm movie.gif". </li>
+ <li>View the images.</li>
+ <li><b>(Optional)</b> Use the images to make a movie by typing "convert image*.ppm movie.gif". </li>
 </ol>
 </div>
 
@@ -165,7 +173,7 @@ There are a wide array of commands that can be used for the input script. A gene
  create_box <br>
  create_sites <br>
  solve_style <br><br>
-This is by no means an exhaustive list. You should use "app_style alloy" to set the SPPARKS application to the one in this documentation. If you are not familiar with most of these commands or the general structure of a SPPARKS script I suggest sticking to the format of one of the example scripts provided.
+This is by no means an exhaustive list. You should use "app_style alloy" to set the SPPARKS application to the one in this documentation. If you are not familiar with most of these commands or the general structure of a SPPARKS script, I suggest sticking to the format of one of the example scripts provided.
 </p>
 
 <h3 id = "2.2">Unique to Appstyle Alloy</h3>
@@ -218,6 +226,14 @@ Note: The integer defining atomic species is stored in the array labeled "i2" as
 The file "in.oblique_angle" will perform co-deposition at angles larger than 85 degrees to the substrate. This causes a shadowing effect that produces nano-rods. As in the previous script the bond energies are defined to produce maximum segregation. 
 </p>
 
+<h3 id = "3.3">SPPARKS2LAMMPS</h3>
+ <div id="i1"> <img src="doc_dependencies/wrapper.png"><img src="doc_dependencies/xrd.png"></div>
+
+ <p>
+This is one of the more advanced examples included in this repository that allows you to wrap your code between Monte Carlo simulations and molecular dynamic algorithims. It is a two part example that is contained in the folder titled "scripts/SPPARKS2LAMMPS". Run the script "in.spparks" using a SPPARKS executable. This will generate an image and a text file. The text file titled "sites.txt" serves to initialize LAMMPS with data about occupied sites. The "in.lammps" file should be ran with a lammps executable. The source code for LAMMP is not included here but can easily be download from Sandia's website. Building the code is similiar to SPPARKS with one exception being that there are a few user packages that you have the option to include in your build. For this example I have enabled the MANYBODY and USER-DIFFRACTION package. Executing "in.lammps" will generate an image after atom energies are minimized and relaxed. A theoretical xrd pattern will also be generated. The images do not take too long to produce but the XRD pattern can take a few hours at least. 
+</p>
+
+
 <h2 id = "4">Some General Comments</h2>
 <h3 id = "4.1">Compiling on Windows</h3>
 <p>
@@ -239,6 +255,8 @@ I am always looking for good feedback whether on this project or another. If you
 <p>
 Thank you to my adviser for helping me to create and use this software to perform simulations of binary alloys and publish my thesis at Virginia Commonwealth University. 
 </p>
+
+
 
 
 </body>
