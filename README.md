@@ -1,4 +1,5 @@
 <b>Alloy Application for SPPARKS<b>
+  <b>This code is not actively maintained but is provided as a reference for previous research work<b>
 
 ![Nanorods](doc/doc_dependencies/movie.gif)
 
